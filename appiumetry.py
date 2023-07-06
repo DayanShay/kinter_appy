@@ -13,6 +13,7 @@ desired_caps['automationName'] = 'UiAutomator2'
 
 
 
+
 driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 driver.implicitly_wait(30)
 # Set up desired capabilities
@@ -23,16 +24,22 @@ def timer(sec):
 
 
 def open_Hiya_app():
-    timer(5)
-    # driver.activate_app('com.webascender.callerid')
-    driver.find_element(By.ACCESSIBILITY_ID, 'Hiya').click()
+    driver.activate_app('com.webascender.callerid')
+    # driver.find_element(By.ACCESSIBILITY_ID, 'Hiya').click()
 
 def first_time_open():
     driver.find_element(By.ID, 'com.webascender.callerid:id/button_get_started').click()
 
 
 def enter_number():
-    driver.find_element(By.CLASS_NAME, 'android.widget.EditText').send_keys("123")
+    driver.find_element(By.CLASS_NAME, 'android.widget.EditText').send_keys("000000")
+
+def click_look_up():
+    driver.find_element(By.XPATH,
+                        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout'
+                        '/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/androidx'
+                        '.viewpager.widget.ViewPager/android.widget.FrameLayout/android.view.ViewGroup/android.widget'
+                        '.Button').click()
 
 def exit_driver():
     driver.quit()
@@ -44,6 +51,13 @@ def close_Hiya():
 def get_running_appid():
     app_id = driver.current_package
     return app_id
+def click_on_keypad():
+    driver.find_element(By.XPATH,
+                        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout'
+                        '/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android'
+                        '.widget.LinearLayout/android.widget.FrameLayout[3]').click()
+def set_phone_num():
+    driver.find_element(By.ID, 'com.webascender.callerid:id/edittext_phoneNumber').send_keys("123")
 
 def start_loop():
     open_Hiya_app()
@@ -51,8 +65,8 @@ def start_loop():
     enter_number()
     close_Hiya()
 
-for i in range(1,10):
-    start_loop()
+
+start_loop()
 exit_driver()
 
 
