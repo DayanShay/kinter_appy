@@ -1,0 +1,51 @@
+import tkinter as tk
+
+def on_menu_click(option):
+    if option in selected_options:
+        selected_options.remove(option)
+    else:
+        selected_options.append(option)
+
+    update_menu()
+    print(f"Menu clicked on: {option}")
+
+    # Reopen the menu
+    menu.post(button.winfo_rootx(), button.winfo_rooty() + button.winfo_height())
+
+def update_menu():
+    # Clear the existing menu options
+    menu.delete(0, tk.END)
+
+    # Add options to the menu with checkmarks for selected options
+    for i, option in enumerate(options):
+        label = f"\u2713 {option}" if option in selected_options else option
+        menu.add_command(label=label, command=lambda opt=option: on_menu_click(opt))
+
+def toggle_menu():
+    update_menu()
+    if menu_visible.get():
+        menu.unpost()
+    else:
+        menu.post(button.winfo_rootx(), button.winfo_rooty() + button.winfo_height())
+    menu_visible.set(not menu_visible.get())
+
+root = tk.Tk()
+root.title("Dropdown Menu with Lime Background")
+
+# Create a Menu widget
+menu = tk.Menu(root, tearoff=0)
+
+# Add options to the menu
+options = ["Option 1", "Option 2", "Option 3"]
+selected_options = []
+
+# Initialize the menu with options and checkmarks
+update_menu()
+
+# Configure the menu's background color to lime
+# Create a button to trigger the dropdown menu
+menu_visible = tk.BooleanVar(value=False)
+button = tk.Button(root, text="Show Menu", command=toggle_menu)
+button.pack(pady=10)
+
+root.mainloop()
